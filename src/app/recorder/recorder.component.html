@@ -1,0 +1,81 @@
+<div class="main-div">
+  <div>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div>
+          @if (!audioUrl()) {
+            <div #analyzerContainer class="container" id="container-13"></div>
+          }
+          <div #waveform class="container" id="container-13"></div>
+        </div>
+        <div style="text-align: center;"  class="button-div">
+          @if (audioUrl()) {
+            <div class="duration-progress">
+              <!-- <p>{{duretionRecord()}}</p> -->
+               <mat-progress-bar mode="determinate" [value]="prograssVal()"></mat-progress-bar>
+              <!-- <ion-progress-bar [value]="prograssVal()"></ion-progress-bar> -->
+              <p>{{display()}}</p>
+            </div>
+            <button mat-icon-button class="large" color="primary" (click)="playRecording()">
+                <mat-icon class="">{{isPlaying ? 'pause' : 'play_arrow'}}</mat-icon>
+            </button>
+            <button mat-icon-button class="large" color="primary" (click)="removeRecording()">
+                <mat-icon>delete</mat-icon>
+            </button>
+          } @else {
+            @if (!isRecording) {
+              <div class="button-div">
+                <button mat-icon-button class="large" color="primary" (click)="startRecording()">
+                    <mat-icon class="material-icons-outlined">mic_outline</mat-icon>
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="large" color="primary">
+                    <mat-icon>settings</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  @for(item of microphones;track item.deviceId) {
+                    <button mat-menu-item>{{item.label}}</button>
+                  }
+                </mat-menu>
+              </div>
+
+            } @else {
+              <div class="recording-stared button-div">
+                <div style="position: relative;">
+                  <div class="stop-icon" style="color: white;">
+                    <p style="margin-left: 56px;margin-top: 14px;">{{recordTime()}}</p>
+                  </div>
+                  <button mat-icon-button class="large" color="primary" (click)="stopRecording()">
+                    <mat-icon>stop</mat-icon>
+                </button>
+                  <!-- <ion-button size="large" shape="round" (click)="stopRecording()">
+                    <ion-icon slot="icon-only" md="stop-circle"></ion-icon>
+                  </ion-button> -->
+                </div>
+                <button mat-icon-button class="large" color="primary" (click)="pauseRecording()">
+                    <mat-icon>pause</mat-icon>
+                </button>
+                <!-- <ion-button size="large" shape="round" (click)="pauseRecording()">
+                  <ion-icon slot="icon-only" md="pause-circle"></ion-icon>
+                </ion-button> -->
+              </div>
+            }
+          }
+        </div>
+        </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div class="waveform" (click)="wave.playPause()" id="waveform"></div>
+<div class="btn-group">
+  <button (click)="wave.play()" class="btn btn-primary active">
+    Play
+  </button>
+  <button (click)="wave.pause()" class="btn btn-primary">
+    Pause
+  </button>
+  <button (click)="wave.stop()" class="btn btn-primary">
+    Stop
+  </button>
+</div>
