@@ -127,16 +127,16 @@ export class RecorderComponent {
       this.audioUrl.set(URL.createObjectURL(audioBlob));
 
       this.audioPlay.set(new Audio(URL.createObjectURL(audioBlob)));
-      this.analyzer.destroy();
-      this.wave = WaveSurfer.create({
-        container: '#waveform',
-        waveColor: '#4F4A85',
-        progressColor: '#383351',
-      });
-      this.wave.load(this.audioUrl() as string);
+      // this.analyzer.destroy();
+      // this.wave = WaveSurfer.create({
+      //   container: '#waveform',
+      //   waveColor: '#4F4A85',
+      //   progressColor: '#383351',
+      // });
+      // this.wave.load(this.audioUrl() as string);
       this.stream.getTracks().forEach(track => track.stop()); // cleanup
+      this.analyzer.connectInput(this.audioPlay() as any);
       this.analyzer.start();
-      // this.analyzer.connectInput(this.audioPlay() as any);
       this.duretionRecord.set(0)
       this.display.set("00:00");
       if (this.setTimeout) {
@@ -149,14 +149,14 @@ export class RecorderComponent {
       });
 
       this.audioPlay()?.addEventListener('loadedmetadata', () => {
-        this.duretionRecord.set(Math.floor(this.audioPlay()?.duration || 0))
-        console.log('Total duration:', this.audioPlay()?.duration);
+        this.duretionRecord.set(Math.floor(this.audioPlay()?.duration || 0));
       });
 
       this.audioPlay()?.addEventListener('timeupdate', () => {
         const seconds = Math.floor(this.audioPlay()?.currentTime || 0);
         const minutes = Math.floor(seconds / 60);
         const display = `${this.pad(minutes)}:${this.pad(seconds % 60)}`;
+        this.duretionRecord.set(Math.floor(this.audioPlay()?.duration || 0))
         this.prograssVal.set(Math.floor((seconds / this.duretionRecord())*100))
         this.display.set(display);
       });
@@ -201,7 +201,7 @@ export class RecorderComponent {
   removeRecording() {
     this.audioUrl.set(null);
     this.audioPlay.set(new Audio());
-    this.analyzer.destroy();
+    this.analyzer.destroy()
     this.createVisual();
   }
   pauseRecording() {
@@ -225,7 +225,6 @@ export class RecorderComponent {
   playRecording() {
     if (!this.isPlaying) {
       this.audioPlay()?.play();
-      // this.analyzer.volume = 1;
       this.isPlaying = true;
     } else {
       this.isPlaying = false;

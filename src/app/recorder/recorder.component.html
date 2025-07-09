@@ -3,17 +3,14 @@
     <mat-card appearance="outlined">
       <mat-card-content>
         <div>
-          @if (!audioUrl()) {
-            <div #analyzerContainer class="container" id="container-13"></div>
-          }
-          <div #waveform class="container" id="container-13"></div>
+          <div #analyzerContainer class="container" id="container-13"></div>
+          <!-- <div #waveform class="container" id="container-13"></div> -->
         </div>
         <div style="text-align: center;"  class="button-div">
           @if (audioUrl()) {
             <div class="duration-progress">
-              <!-- <p>{{duretionRecord()}}</p> -->
                <mat-progress-bar mode="determinate" [value]="prograssVal()"></mat-progress-bar>
-              <!-- <ion-progress-bar [value]="prograssVal()"></ion-progress-bar> -->
+               <p style="text-align: center;">{{this.prograssVal()}}</p>
               <p>{{display()}}</p>
             </div>
             <button mat-icon-button class="large" color="primary" (click)="playRecording()">
@@ -47,16 +44,10 @@
                   <button mat-icon-button class="large" color="primary" (click)="stopRecording()">
                     <mat-icon>stop</mat-icon>
                 </button>
-                  <!-- <ion-button size="large" shape="round" (click)="stopRecording()">
-                    <ion-icon slot="icon-only" md="stop-circle"></ion-icon>
-                  </ion-button> -->
                 </div>
                 <button mat-icon-button class="large" color="primary" (click)="pauseRecording()">
                     <mat-icon>pause</mat-icon>
                 </button>
-                <!-- <ion-button size="large" shape="round" (click)="pauseRecording()">
-                  <ion-icon slot="icon-only" md="pause-circle"></ion-icon>
-                </ion-button> -->
               </div>
             }
           }
@@ -67,7 +58,7 @@
 </div>
 
 
-<div class="waveform" (click)="wave.playPause()" id="waveform"></div>
+<!-- <div class="waveform" (click)="wave.playPause()" id="waveform"></div>
 <div class="btn-group">
   <button (click)="wave.play()" class="btn btn-primary active">
     Play
@@ -78,4 +69,4 @@
   <button (click)="wave.stop()" class="btn btn-primary">
     Stop
   </button>
-</div>
+</div> -->
